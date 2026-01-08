@@ -56,3 +56,5 @@ void GroveLCD::displayVainqueur (const std::string& vainqueur) {
     lcd.print(vainqueur.c_str());
     lcd.setRGB(0, 255, 0);
 }
+
+

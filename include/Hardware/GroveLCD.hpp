@@ -1,13 +1,12 @@
 #ifndef GroveLCD_HPP
 #define GroveLCD_HPP
 
-#include <iostream>
+#include <Arduino.h>
 #include "Hardware.hpp"
 #include <Wire.h>
 #include <rgb_lcd.h>
 #include <string>
 
-using namespace std;
 
 class GroveLCD : public Hardware {
 private:

@@ -1,5 +1,6 @@
-#ifndef HARDWARE_H
-#define HARDWARE_H
+#ifndef HARDWARE_HPP
+#define HARDWARE_HPP
+
 //Hardware is abstract
 class Hardware {
 public:
