@@ -5,6 +5,7 @@
 #include "Hardware.hpp"
 #include <Wire.h>
 #include <rgb_lcd.h>
+#include <string>
 
 using namespace std;
 
@@ -17,11 +18,11 @@ public:
     void init();
     void clear();
     void setCursor(int col, int row);
-    void print(const String& message);
+    void print(const std::string& message);
     void setBacklight(int r, int g, int b);
     void displayScore(int score1, int score2);
     void displayGameOver(int score1, int score2);
-    void displayVainqueur (const string& vinqueur);
+    void displayVainqueur (const std::string& vainqueur);
 };
 
 #endif
