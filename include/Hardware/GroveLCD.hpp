@@ -1,20 +1,27 @@
-#ifndef GROVE_LCD_HPP
-#define GROVE_LCD_HPP
+#ifndef GroveLCD_HPP
+#define GroveLCD_HPP
 
-#include "LCD.hpp"
+#include <iostream>
+#include "Hardware.hpp"
 #include <Wire.h>
-#include "rgb_lcd.h"
+#include <rgb_lcd.h>
 
-class GroveLCD : public LCD {
+using namespace std;
+
+class GroveLCD : public Hardware {
 private:
     rgb_lcd lcd;
 
 public:
     GroveLCD();
-    void init() override;
-    void displaymsg(const char* msg) override;
-    void clear() override;
-    void setCursor(int col, int row) override;//Places cursor
+    void init();
+    void clear();
+    void setCursor(int col, int row);
+    void print(const String& message);
+    void setBacklight(int r, int g, int b);
+    void displayScore(int score1, int score2);
+    void displayGameOver(int score1, int score2);
+    void displayVainqueur (const string& vinqueur);
 };
 
 #endif

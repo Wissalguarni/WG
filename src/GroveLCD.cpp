@@ -1,6 +1,7 @@
-#include "GroveLCD.hpp"
+#include "Hardware/GroveLCD.hpp"
+using namespace std;
 
-GroveLCD::GroveLCD() {}
+GroveLCD::GroveLCD() {};
 
 void GroveLCD::init() {
     lcd.begin(16, 2);          // LCD 16x2
