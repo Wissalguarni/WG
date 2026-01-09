@@ -1,29 +1,27 @@
 #include <Arduino.h>
-#include "Hardware/Buzzer.hpp"
+#include "Hardware/GroveLCD.hpp"
+#include "Hardware/Potentio.hpp"
+#include <Wire.h>
 
-const int BUZZER_PIN = 12; // D6 = GPIO12 (ESP8266)
-Buzzer buzzer(BUZZER_PIN);
+const int POT_PIN = A0; // broche analogique ESP8266
+
+GroveLCD lcd;
+Potentio potentiometer(POT_PIN, &lcd);
 
 void setup() {
     Serial.begin(115200);
-    delay(1000);
+    Wire.begin();
+    lcd.init();
 
-    Serial.println("Buzzer test start");
-    buzzer.init();
-
-    // Single beep test
-    buzzer.beep(1000, 500); // 1kHz, 500ms
-    delay(1000);
-
-    // Melody test
-    // GAME OVER melody
-     int gameOverNotes[] = { 392, 370, 349, 330, 294, 262, 0 };
-     int gameOverDurations[] = { 300, 300, 300, 300, 400, 600, 400 };
-     int gameOverLength = 7;
-
-    buzzer.playMusic(gameOverNotes, gameOverDurations, gameOverLength);
+    potentiometer.init(); // affiche test puis valeur initiale
 }
 
 void loop() {
-    // nothing
+    int choice = potentiometer.getChoice(5);
+
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print(("Choice: " + String(choice)).c_str());
+
+    delay(500);
 }

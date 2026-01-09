@@ -9,10 +9,11 @@ class Potentio : public Hardware {
 private:
     int pin;
     GroveLCD* lcd;
+
 public:
-    Potentio();
-    void init(int pin);
-    int getChoice(int nbChoix);
+    Potentio(int pin, GroveLCD* lcdScreen);
+    void init() override;
+    int getChoice(int nbChoices);
 };
 
 #endif

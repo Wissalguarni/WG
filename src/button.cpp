@@ -1,6 +1,6 @@
 #include "Hardware/Button.hpp"
 
-
+Button::Button(int buttonPin, GroveLCD* lcdScreen) : pin(buttonPin), lcd(lcdScreen) {}
 
 void Button::init() {
     pinMode(pin, INPUT_PULLUP); //si appuyé = LOW
