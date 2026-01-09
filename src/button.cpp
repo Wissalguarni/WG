@@ -1,7 +1,6 @@
 #include "Hardware/Button.hpp"
 
-Button::Button(int buttonPin, GroveLCD* lcdScreen) 
-    : pin(buttonPin), lastState(false), lcd(lcdScreen) {}
+
 
 void Button::init() {
     pinMode(pin, INPUT_PULLUP); //si appuyé = LOW
@@ -36,3 +35,4 @@ bool Button::isPressed() {
     lastState = currentState;
     return false;
 }
+
