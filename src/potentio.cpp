@@ -1,5 +1,6 @@
 #include "Hardware/Potentio.hpp"
 
+
 Potentio::Potentio(int p, GroveLCD* lcdScreen) : pin(p), lcd(lcdScreen) {}
 
 void Potentio::init() {
@@ -7,13 +8,17 @@ void Potentio::init() {
 
     lcd->clear();
     lcd->setCursor(0, 0);
-    lcd->print("test potentio");
+    lcd->print("FUN FUN GAMES");
     delay(1000);
 
-    int choice = getChoice(5);
+    int choice = getChoice(2);
     lcd->clear();
     lcd->setCursor(0, 0);
-    lcd->print(std::to_string(choice));
+
+    std::vector<std::string> options = {"Solo Mode", "Multiplayer"};
+    std::string choiceStr = options[choice];
+
+    lcd->print(choiceStr);
 }
 
 int Potentio::getChoice(int nbChoices) {

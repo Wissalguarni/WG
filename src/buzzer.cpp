@@ -4,9 +4,9 @@ using namespace std;
 Buzzer::Buzzer(int buzzerPin) : pin(buzzerPin) {}
 
 void Buzzer::init() {
-    tone(pin, 500, 200);  
-    delay(250);           
-    noTone(pin);           
+    int notes[] = {262, 294, 330, 349};       // Do, Ré, Mi, Fa
+    int durations[] = {200, 200, 200, 200};  // durée de chaque note
+    playMusic(notes, durations, 4);
 }
 
 void Buzzer::beep(int frequency, int duration) {
