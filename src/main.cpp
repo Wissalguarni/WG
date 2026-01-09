@@ -5,14 +5,12 @@
 #include "Hardware/GroveLCD.hpp"
 
 const int BUTTON_PIN = 14; // D5 = GPIO14 (ESP8266)
-
 GroveLCD lcd;
 Button button(BUTTON_PIN, &lcd);
 
 void setup() {
     Serial.begin(115200);
     delay(1000);
-
     Wire.begin();   // I2C init
     lcd.init();     // LCD init
 
@@ -28,6 +26,7 @@ void setup() {
     lcd.clear();
     lcd.print("Init OK");
     delay(1000);
+
 }
 
 void loop() {

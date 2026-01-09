@@ -1,10 +1,11 @@
 #ifndef GROVE_LED_HPP
 #define GROVE_LED_HPP
 
-#include "Hardware/Hardware.hpp"
 #include <Arduino.h>
+#include "Hardware.hpp"
 
-class GroveLED : public Hardware{
+
+class GroveLED : public Hardware {
 private:
     int pin;
 
