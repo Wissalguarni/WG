@@ -1,30 +1,29 @@
 #include <Arduino.h>
-#include "Hardware/GroveLED.hpp"
+#include "Hardware/Buzzer.hpp"
 
-// Pin Grove LED (D7 = GPIO13)
-const int LED_PIN = 13;
-
-GroveLED led(LED_PIN);
+const int BUZZER_PIN = 12; // D6 = GPIO12 (ESP8266)
+Buzzer buzzer(BUZZER_PIN);
 
 void setup() {
     Serial.begin(115200);
-    Serial.println("Testing GroveLED...");
+    delay(1000);
 
-    // Pas besoin d'init car init() est vide
+    Serial.println("Buzzer test start");
+    buzzer.init();
+
+    // Single beep test
+    buzzer.beep(1000, 500); // 1kHz, 500ms
+    delay(1000);
+
+    // Melody test
+    // GAME OVER melody
+     int gameOverNotes[] = { 392, 370, 349, 330, 294, 262, 0 };
+     int gameOverDurations[] = { 300, 300, 300, 300, 400, 600, 400 };
+     int gameOverLength = 7;
+
+    buzzer.playMusic(gameOverNotes, gameOverDurations, gameOverLength);
 }
 
 void loop() {
-    Serial.println("LED ON");
-    led.ON();
-    delay(1000);
-
-    Serial.println("LED OFF");
-    led.OFF();
-    delay(1000);
-
-    Serial.println("LED BLINK 500ms");
-    led.blink(500); // clignote 1 fois (500ms HIGH + 500ms LOW)
-
-    Serial.println("LED BLINK 200ms");
-    led.blink(200); // clignote 1 fois (200ms HIGH + 200ms LOW)
+    // nothing
 }
