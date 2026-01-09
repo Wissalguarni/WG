@@ -9,11 +9,12 @@ private:
     int pin;
 
 public:
-    GroveLED(int pin);       // constructor
-    void init() override;
-    //void ON() override;
-    //void OFF() override;
-    //void blink(int period) override;
+    GroveLED(int pin);
+    void init() override {}; // no init needed for GroveLED
+    void ON();
+    void OFF();
+    void blink(int period); // LED blinks with period in ms (blocking)
+     ~GroveLED() {};
 };
 
 #endif
