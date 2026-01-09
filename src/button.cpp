@@ -33,5 +33,6 @@ bool Button::isPressed() {
         delay(50); // anti-rebond simple
         return true;
     }
+    lastState = currentState;
     return false;
 }
