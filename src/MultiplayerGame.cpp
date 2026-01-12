@@ -81,6 +81,15 @@ int MultiplayerGame::getscoreplayer2() {
     return scorePlayer2;
 }
 
+long delaiAleatoire;
+
+long MultiplayerGame::waitingTime(int pin) {
+  randomSeed(analogRead(pin));   // initialise le hasard
+  delaiAleatoire = random(1000, 5000); // délai aléatoire entre 1 et 5 secondes
+  return delaiAleatoire;
+}
+
+
 // Display winner and loser with sounds
 void MultiplayerGame::displayWinnerLoser(GroveLCD& lcd) {
     lcd.clear();

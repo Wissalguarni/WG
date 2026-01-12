@@ -32,6 +32,7 @@ public:
     int getscoreplayer2() ;// get player 2 score
      void displayWinnerLoser(GroveLCD& lcd);// display winner and loser
      bool isGameOver() const;// is the game over (a player reached max score)?
+     long waitingTime(int pin);
 };
 
 #endif
