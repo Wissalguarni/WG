@@ -89,11 +89,18 @@ void loop() {
             hw.lcd.clear();
             hw.led.OFF();
             scoreManager.addScore(stopTime);
+
             hw.lcd.print("Your Time:");
             hw.lcd.setCursor(0, 1);
             hw.lcd.print(std::to_string(10));
             hw.lcd.print(" ms");
             delay(2000);
+            hw.lcd.clear();
+
+            if (!scoreManager) {
+                hw.lcd.print("Best score !");
+            }
+            
             hw.lcd.clear();
             hw.lcd.print("Your position:");
             hw.lcd.setCursor(0, 1);

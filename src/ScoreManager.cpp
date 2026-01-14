@@ -38,3 +38,9 @@ int ScoreManager::getPosition(int score){
     }
     return -1; // non trouvé
 }
+
+bool ScoreManager::operator!() {
+    if (scores.empty()) return false; // pas de score → pas de best
+    return scores.back() == scores.front(); 
+}
+

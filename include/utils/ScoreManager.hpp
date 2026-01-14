@@ -19,6 +19,7 @@ public:
     void addScore(int newScore);
     void displayScores(GroveLCD& lcd);
     int getPosition(int score);
+    bool operator!();
 
 
 };
