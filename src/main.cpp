@@ -8,10 +8,12 @@
 #include "Utils/GameHardware.hpp"
 #include "Game/SoloGame.hpp"
 #include "Utils/ContinueSelector.hpp"
+#include "Utils/ScoreManager.hpp"
 
 GameHardware hw(D7, D8, D5, A0, D6); // Initialize hardware with pin numbers
 GameSelector selector(hw.lcd, hw.player1Button, A0); // Initialize game selector
 ContinueSelector continueSelector(hw.lcd, hw.player1Button, A0); // Initialize continue selector
+ScoreManager scoreManager(10, hw.lcd);
 
 void setup() {
     hw.initAll();
@@ -63,14 +65,18 @@ void loop() {
     } else if (mode == SINGLEPLAYER) {
         SoloGame solo(hw.buzz);
         solo.start();
+        int waitTime = 0;
+        int stopTime = 0;
+        int startTime = 0;
+        int position = 0;
         while (!solo.stop()) {//while the game is not finished
             solo.countdown(hw.led, hw.lcd);
-            int stopTime = 0;
+            stopTime = 0;
             hw.lcd.print("Wait for it...");
-            int waitTime = solo.waitingTime(D0); // get random wait time
+            waitTime = solo.waitingTime(D0); // get random wait time
             delay(waitTime); // wait for random time between 1 and 5 seconds
             hw.lcd.clear();
-            int startTime = millis();
+            startTime = millis();
             hw.lcd.print("Press now!");
             hw.led.ON(); // turn on LED to signal player to press
 
@@ -82,10 +88,17 @@ void loop() {
 
             hw.lcd.clear();
             hw.led.OFF();
+            scoreManager.addScore(stopTime);
             hw.lcd.print("Your Time:");
             hw.lcd.setCursor(0, 1);
             hw.lcd.print(std::to_string(10));
-            solo.newBestTime(stopTime, hw.lcd);
+            hw.lcd.print(" ms");
+            delay(2000);
+            hw.lcd.clear();
+            hw.lcd.print("Your position:");
+            hw.lcd.setCursor(0, 1);
+            position = scoreManager.getPosition(stopTime);
+            hw.lcd.print(std::to_string(position));
             delay(2000);
 
             Continue choose = continueSelector.selectContinue();

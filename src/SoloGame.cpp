@@ -2,7 +2,7 @@
 #include <Arduino.h>
 
 SoloGame::SoloGame(Buzzer& buzzerObj)
-    : finished(false), ledOn(false), bestTime(0), buzzer(buzzerObj) {}
+    : finished(false), ledOn(false), buzzer(buzzerObj) {}
 
 // reset game state
 void SoloGame::start() {
@@ -36,31 +36,6 @@ long SoloGame::waitingTime(int pin) {
   randomSeed(analogRead(pin));   // initialise le hasard
   int delaiAleatoire = random(1000, 5000); // délai aléatoire entre 1 et 5 secondes
   return delaiAleatoire;
-}
-
-void SoloGame::newBestTime(int currentTime, GroveLCD& lcd) {
-    if ( currentTime < bestTime) {
-        lcd.clear();
-        lcd.setCursor(0, 0);
-        lcd.print("New Best Time!");
-        lcd.setCursor(0, 1);
-        lcd.print("Time: " + std::to_string(currentTime) + " ms");
-        int winnerNotes[3] = {523, 659, 783};
-        int winnerDur[3] = {200, 200, 400};
-        buzzer.playMusic(winnerNotes, winnerDur, 3);
-        delay(2000);
-        bestTime = currentTime;
-    } else {
-        lcd.clear();
-        lcd.setCursor(0, 0);
-        lcd.print("Best Time:");
-        lcd.setCursor(0, 1);
-        lcd.print(std::to_string(bestTime) + " ms");
-        int loserNotes[3] = {330, 294, 262};
-        int loserDur[3] = {200, 200, 400};
-        buzzer.playMusic(loserNotes, loserDur, 3);
-        delay(2000);
-    }
 }
 
 bool SoloGame::isFinished() const {
