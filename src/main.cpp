@@ -58,10 +58,6 @@ void loop() {
         delay(2000);
         hw.lcd.clear();
         multiplayer.displayWinnerLoser(hw.lcd);
-
-        // Reset game for next round
-        multiplayer = MultiplayerGame(hw.buzz);
-
         delay(5000); // wait before returning to menu
         
     } else if (mode == SINGLEPLAYER) {
@@ -69,6 +65,7 @@ void loop() {
         solo.start();
         while (!solo.stop()) {//while the game is not finished
             solo.countdown(hw.led, hw.lcd);
+            int stopTime = 0;
             hw.lcd.print("Wait for it...");
             int waitTime = solo.waitingTime(D0); // get random wait time
             delay(waitTime); // wait for random time between 1 and 5 seconds
@@ -80,15 +77,15 @@ void loop() {
             while (!solo.isFinished()){
                 solo.inProgress(hw.player1Button, hw.led);//check button
                 yield();
-                int stopTime = millis()-startTime;
+                stopTime = millis()-startTime;
             }
 
             hw.lcd.clear();
             hw.led.OFF();
             hw.lcd.print("Your Time:");
             hw.lcd.setCursor(0, 1);
-            hw.lcd.print(stopTime);
-            solo.newBestTime(stopTime);
+            hw.lcd.print(std::to_string(10));
+            solo.newBestTime(stopTime, hw.lcd);
             delay(2000);
 
             Continue choose = continueSelector.selectContinue();
@@ -98,7 +95,7 @@ void loop() {
                 hw.lcd.setCursor(0, 1);
                 hw.lcd.print("playing!");
                 delay(2000);
-                solo.stop() // exit the game loop
+                solo.stop(); // exit the game loop
             }
         delay(2000); // wait before returning to menu
         }

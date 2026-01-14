@@ -14,7 +14,7 @@ private:
     GroveLCD& lcd;          
     Button& validateButton; // button to validate selection
     int potPin;// potentiometer pin
-    Continue newMode;// currently selected mode
+    Continue currentChoice;// currently selected choice
     int lastPotValue;// to track changes
 
     void displayMenu();

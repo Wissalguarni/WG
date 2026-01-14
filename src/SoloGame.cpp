@@ -34,11 +34,11 @@ void SoloGame::countdown(GroveLED& led, GroveLCD& lcd) {
 
 long SoloGame::waitingTime(int pin) {
   randomSeed(analogRead(pin));   // initialise le hasard
-  delaiAleatoire = random(1000, 5000); // délai aléatoire entre 1 et 5 secondes
+  int delaiAleatoire = random(1000, 5000); // délai aléatoire entre 1 et 5 secondes
   return delaiAleatoire;
 }
 
-void SoloGame::newBestTime(int currentTime) {
+void SoloGame::newBestTime(int currentTime, GroveLCD& lcd) {
     if ( currentTime < bestTime) {
         lcd.clear();
         lcd.setCursor(0, 0);

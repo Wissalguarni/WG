@@ -2,14 +2,14 @@
 #include <Arduino.h>
 
 ContinueSelector::ContinueSelector(GroveLCD& lcd, Button& button, int potPin)
-    : lcd(lcd), validateButton(button), potPin(potPin), currentMode(YES), lastPotValue(-1) {}
+    : lcd(lcd), validateButton(button), potPin(potPin),currentChoice(YES), lastPotValue(-1) {}
 
 void ContinueSelector::displayMenu() {// display the menu on the LCD
     lcd.clear();
     lcd.setCursor(0, 0);
-    lcd.print(currentMode == YES ? "> Yes" : "  Yes");
+    lcd.print(currentChoice == YES ? "> Yes" : "  Yes");
     lcd.setCursor(0, 1);
-    lcd.print(currentMode == NO ? "> No" : "  No");
+    lcd.print(currentChoice == NO ? "> No" : "  No");
 }
 
 Continue ContinueSelector::selectContinue() {// select continue mode
@@ -18,17 +18,17 @@ Continue ContinueSelector::selectContinue() {// select continue mode
     while (true) {
         int potValue = analogRead(potPin);
 
-        Continue newMode = (potValue < 512) ? YES : NO;
+        Continue newChoice = (potValue < 512) ? YES : NO;
 
-        if (newMode != currentMode) {
-            currentMode = newMode;
+        if (newChoice != currentChoice) {
+            currentChoice = newChoice;
             displayMenu();
         }
 
         if (validateButton.isPressed()) { // note : plus de ->, maintenant .
             lcd.clear();
             delay(200); // anti-bounce
-            return currentMode;
+            return currentChoice;
         }
 
         delay(50);
