@@ -4,7 +4,17 @@
 #include "Hardware/GroveLCD.hpp"
 #include <vector>
 #include <string>
+#include <exception>
 
+
+
+// Exception pour un temps de réaction trop lent
+class BadReactionTime : public std::exception {
+public:
+    const char* what() const noexcept {
+        return "C'est catastrophique!";
+    }
+};
 
 
 class ScoreManager {

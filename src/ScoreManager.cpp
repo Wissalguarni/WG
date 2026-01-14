@@ -7,6 +7,9 @@ ScoreManager::ScoreManager(int maxScores, GroveLCD& lcd) : maxScores(maxScores),
 void ScoreManager::addScore(int newScore) {
     scores.push_back(newScore);
 
+    if (newScore > 1000) {
+        throw BadReactionTime();
+    }
     // Tri décroissant
     std::sort(scores.begin(), scores.end(), [](int a, int b) { return a > b; });
 
