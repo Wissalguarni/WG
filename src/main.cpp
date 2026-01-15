@@ -13,10 +13,11 @@
 GameHardware hw(D7, D8, D5, A0, D6); // Initialize hardware with pin numbers
 GameSelector selector(hw.lcd, hw.player1Button, A0); // Initialize game selector
 ContinueSelector continueSelector(hw.lcd, hw.player1Button, A0); // Initialize continue selector
-ScoreManager scoreManager(10, hw.lcd);
+ScoreManager scoreManager(10, hw.lcd, hw.buzz); // Initialize score manager
 
 void setup() {
     hw.initAll();
+ 
 }
 
 
@@ -34,6 +35,7 @@ void loop() {
             hw.lcd.clear();
             multiplayer.start();
             hw.lcd.print("Get ready...");
+            hw.lcd.clear();
             long waitTime = multiplayer.waitingTime(D0); // get random wait time
             delay(waitTime); // wait for random time between 1 and 5 seconds
             hw.lcd.clear();
@@ -65,14 +67,18 @@ void loop() {
     } else if (mode == SINGLEPLAYER) {
         SoloGame solo(hw.buzz);
         solo.start();
-        int waitTime = 0;
-        int stopTime = 0;
-        int startTime = 0;
-        int position = 0;
-        while (!solo.stop()) {//while the game is not finished
-            solo.countdown(hw.led, hw.lcd);
-            stopTime = 0;
+        solo.countdown(hw.led, hw.lcd);
+        delay(2000);
+        while (!solo.isGameover ()) {//while the game is not finished
+            //solo.countdown(hw.led, hw.lcd);
+            hw.lcd.clear();
+            solo.start();
+            long startTime = 0;
+            long waitTime = 0;
+            long stopTime = 0;
+             int position = 0;
             hw.lcd.print("Wait for it...");
+            hw.led.OFF();
             waitTime = solo.waitingTime(D0); // get random wait time
             delay(waitTime); // wait for random time between 1 and 5 seconds
             hw.lcd.clear();
@@ -85,36 +91,44 @@ void loop() {
                 yield();
                 stopTime = millis()-startTime;
             }
-
+            
             hw.lcd.clear();
             hw.led.OFF();
-            try{
+            if (stopTime <2000) {
                 scoreManager.addScore(stopTime);
-                delay(2000);
+                delay(1000);
             
+                 if (!scoreManager) {
+                    hw.lcd.print("Best score !");
+                    hw.lcd.setCursor(0, 1);
+                    hw.lcd.print("Congrats!");
+                    scoreManager.playwinnerMelody();
+                    delay(2000);
+                    hw.lcd.clear();
+                }
                 hw.lcd.print("Your Time:");
                 hw.lcd.setCursor(0, 1);
-                hw.lcd.print(std::to_string(10));
+                hw.lcd.print(std::to_string(stopTime));
                 hw.lcd.print(" ms");
                 delay(2000);
                 hw.lcd.clear();
-
-                if (!scoreManager) {
-                    hw.lcd.print("Best score !");
-                    delay(2000);
-                }
                 hw.lcd.clear();
                 hw.lcd.print("Your position:");
                 hw.lcd.setCursor(0, 1);
                 position = scoreManager.getPosition(stopTime);
                 hw.lcd.print(std::to_string(position));
+                scoreManager.displayScores();
+                delay(2000);
+
+            }else {
+                hw.lcd.print("t nul");
+                scoreManager.playloosermelody();
                 delay(2000);
             }
-            catch (const BadReactionTime& e) {
-                hw.lcd.print(e.what());
-            } 
-            
-
+            hw.lcd.clear();
+            hw.lcd.print("Play again?");
+            scoreManager.playagainMelody();
+            delay(1000);
             Continue choose = continueSelector.selectContinue();
             if (choose == NO) {
                 hw.lcd.clear();
@@ -124,6 +138,7 @@ void loop() {
                 delay(2000);
                 solo.stop(); // exit the game loop
             }
+            solo.stop();
         delay(2000); // wait before returning to menu
         }
     }

@@ -23,6 +23,7 @@ public:
     void inProgress(Button& p1, GroveLED& led);// game in progress
     bool isFinished() const;// is the round finished?
     long waitingTime(int pin);
+    bool isGameover () ;
     bool stop(); 
 };
 

@@ -41,6 +41,9 @@ long SoloGame::waitingTime(int pin) {
 bool SoloGame::isFinished() const {
     return finished;
 }
+bool SoloGame::isGameover () {
+    return finished;
+}
 
 void SoloGame::inProgress(Button& p1, GroveLED& led) {
     if (p1.isPressed()) {

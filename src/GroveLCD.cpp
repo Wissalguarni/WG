@@ -7,7 +7,17 @@ void GroveLCD::init() {
     lcd.setRGB(255, 255, 255); // Backlight blanc
 
     lcd.clear();
-    lcd.print("HELLO");
+    lcd.print("FUN FUN GAMES");
+    delay(2000);
+    lcd.clear();
+    lcd.print("Press the button");
+    lcd.setCursor(0, 1);
+    lcd.print("when led is on");
+    delay(2000);
+    lcd.clear();
+    lcd.print("AS FAST AS");
+    lcd.setCursor(0, 1);
+    lcd.print("YOU CAN!");
 }
 
 void GroveLCD::clear() {
