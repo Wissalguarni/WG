@@ -53,6 +53,6 @@ void SoloGame::inProgress(Button& p1, GroveLED& led) {
     } 
 }
 
-bool SoloGame::stop(){
-    return finished;
+void SoloGame::stop(){
+    finished = true;
 }

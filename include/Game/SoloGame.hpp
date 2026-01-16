@@ -24,7 +24,7 @@ public:
     bool isFinished() const;// is the round finished?
     long waitingTime(int pin);
     bool isGameover () ;
-    bool stop(); 
+    void stop(); 
 };
 
 #endif

@@ -36,6 +36,7 @@ void loop() {
             multiplayer.start();
             hw.lcd.print("Get ready...");
             hw.lcd.clear();
+            hw.lcd.print("Wait for it...");
             long waitTime = multiplayer.waitingTime(D0); // get random wait time
             delay(waitTime); // wait for random time between 1 and 5 seconds
             hw.lcd.clear();
@@ -112,16 +113,17 @@ void loop() {
                 hw.lcd.print(" ms");
                 delay(2000);
                 hw.lcd.clear();
-                hw.lcd.clear();
                 hw.lcd.print("Your position:");
                 hw.lcd.setCursor(0, 1);
                 position = scoreManager.getPosition(stopTime);
                 hw.lcd.print(std::to_string(position));
+                delay(2000);
+                hw.lcd.clear();
                 scoreManager.displayScores();
                 delay(2000);
 
             }else {
-                hw.lcd.print("t nul");
+                hw.lcd.print("Wake up!!!");
                 scoreManager.playloosermelody();
                 delay(2000);
             }
@@ -129,6 +131,7 @@ void loop() {
             hw.lcd.print("Play again?");
             scoreManager.playagainMelody();
             delay(1000);
+            solo.start(); // reset for next round
             Continue choose = continueSelector.selectContinue();
             if (choose == NO) {
                 hw.lcd.clear();
@@ -138,7 +141,7 @@ void loop() {
                 delay(2000);
                 solo.stop(); // exit the game loop
             }
-            solo.stop();
+            //solo.stop();
         delay(2000); // wait before returning to menu
         }
     }
