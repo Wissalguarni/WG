@@ -5,7 +5,7 @@
 ScoreManager::ScoreManager(int maxScores, GroveLCD& lcd,Buzzer& buzzer)
     : maxScores(maxScores), lcd(lcd), buzzer(buzzer), lastScore(-1) {}
 
-void ScoreManager::addScore(int newScore) {
+void ScoreManager::addScore(int newScore) { // add a new score
     
 
     lastScore = newScore;
@@ -19,7 +19,7 @@ void ScoreManager::addScore(int newScore) {
     }
 }
 
-void ScoreManager::displayScores() {
+void ScoreManager::displayScores() { // display top scores on LCD
     // Display the title first
     lcd.clear();                  // Clear the screen
     lcd.setCursor(0, 0);          // Set cursor to top-left
@@ -43,7 +43,7 @@ void ScoreManager::displayScores() {
 }
 
 
-int ScoreManager::getPosition(int score) {
+int ScoreManager::getPosition(int score) { // get position of a score
     for (size_t i = 0; i < scores.size(); ++i) {
         if (scores[i] == score) {
             return i + 1;
@@ -52,22 +52,22 @@ int ScoreManager::getPosition(int score) {
     return -1;
 }
 
-bool ScoreManager::operator!() {
+bool ScoreManager::operator!() { // TRUE si le dernier score est le MEILLEUR
     if (scores.empty()) return false;
     return lastScore == scores.front();
 }
 
-void ScoreManager:: playloosermelody() {
+void ScoreManager:: playloosermelody() { // play looser melody
     int looserNotes[3] = {330, 294, 262};
     int looserDur[3] = {200, 200, 400};
     buzzer.playMusic(looserNotes, looserDur, 3);
 }
-void ScoreManager:: playwinnerMelody() {
+void ScoreManager:: playwinnerMelody() { // play winner melody
     int winnerNotes[3] = {523, 659, 783};
     int winnerDur[3] = {200, 200, 400};
     buzzer.playMusic(winnerNotes, winnerDur, 3);
 }
-void ScoreManager:: playagainMelody() {
+void ScoreManager:: playagainMelody() { // play again melody
     int againNotes[4] = {784, 659, 523, 659};
     int againDur[4] = {150, 150, 150, 300};
     buzzer.playMusic(againNotes, againDur, 4);

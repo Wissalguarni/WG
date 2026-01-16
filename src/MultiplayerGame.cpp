@@ -1,19 +1,18 @@
 #include "Game/MultiplayerGame.hpp"
 #include <Arduino.h>
 
-MultiplayerGame::MultiplayerGame(Buzzer& buzzerObj)
+MultiplayerGame::MultiplayerGame(Buzzer& buzzerObj) // initializer list
     : finished(false), ledOn(false), scorePlayer1(0), scorePlayer2(0), buzzer(buzzerObj) {}
 
 // reset game state
-void MultiplayerGame::start() {
+void MultiplayerGame::start() { // reset game state
     finished = false;
     ledOn = false;
 
 }
 
 // countdown3…2…1…GO! with bips
-void MultiplayerGame::countdown(GroveLED& led, GroveLCD& lcd) {
-    led.OFF();   // s'assurer qu'elle est éteinte au départ
+void MultiplayerGame::countdown(GroveLED& led, GroveLCD& lcd) { //  countdown 3..2..1..GO!
     lcd.clear();
 
     for (int i = 3; i > 0; i--) {
@@ -73,17 +72,17 @@ std::string MultiplayerGame::getWinner() const {
     else return "Draw";
 }
 
-int MultiplayerGame::getscoreplayer1() {
+int MultiplayerGame::getscoreplayer1() { // get player 1 score
     return scorePlayer1;
 }
 
-int MultiplayerGame::getscoreplayer2() {
+int MultiplayerGame::getscoreplayer2() { // get player 2 score
     return scorePlayer2;
 }
 
 long delaiAleatoire;
 
-long MultiplayerGame::waitingTime(int pin) {
+long MultiplayerGame::waitingTime(int pin) { // get random waiting time between 1 and 5 seconds
   randomSeed(analogRead(pin));   // initialise le hasard
   delaiAleatoire = random(1000, 5000); // délai aléatoire entre 1 et 5 secondes
   return delaiAleatoire;

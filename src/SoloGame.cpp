@@ -32,20 +32,20 @@ void SoloGame::countdown(GroveLED& led, GroveLCD& lcd) {
     ledOn = true;
 }
 
-long SoloGame::waitingTime(int pin) {
+long SoloGame::waitingTime(int pin) { // get random waiting time between 1 and 5 seconds
   randomSeed(analogRead(pin));   // initialise le hasard
   int delaiAleatoire = random(1000, 5000); // délai aléatoire entre 1 et 5 secondes
   return delaiAleatoire;
 }
 
-bool SoloGame::isFinished() const {
+bool SoloGame::isFinished() const { // is the round finished?
     return finished;
 }
-bool SoloGame::isGameover () {
+bool SoloGame::isGameover () { // is the game over?
     return finished;
 }
 
-void SoloGame::inProgress(Button& p1, GroveLED& led) {
+void SoloGame::inProgress(Button& p1, GroveLED& led) { // check button press
     if (p1.isPressed()) {
         finished = true;
         led.OFF();
@@ -53,6 +53,6 @@ void SoloGame::inProgress(Button& p1, GroveLED& led) {
     } 
 }
 
-void SoloGame::stop(){
+void SoloGame::stop(){ // stop the game
     finished = true;
 }

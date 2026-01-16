@@ -1,6 +1,5 @@
 #include <Arduino.h>
 #include "Hardware/GroveLCD.hpp"
-#include "Hardware/LED.hpp"
 #include "Hardware/button.hpp"
 #include "Game/MultiplayerGame.hpp"
 #include "Hardware/Groveled.hpp"
@@ -22,12 +21,13 @@ void setup() {
 
 
 void loop() {
-    GameMode mode = selector.selectMode();
+    GameMode mode = selector.selectMode(); // let user select game mode
 
-    if (mode == MULTIPLAYER) {
+    if (mode == MULTIPLAYER) { // multiplayer mode
         MultiplayerGame multiplayer(hw.buzz);
         multiplayer.start();
         multiplayer.countdown(hw.led, hw.lcd);
+        hw.lcd.clear();
         hw.lcd.print("First at 5");
         delay(2000);
         // Game loop
@@ -43,7 +43,7 @@ void loop() {
             hw.lcd.print("Press now!");
             hw.led.ON(); // turn on LED to signal players to press
 
-            while (!multiplayer.isFinished()){
+            while (!multiplayer.isFinished()){ // until a player presses
                 multiplayer.inProgress(hw.player1Button, hw.player2Button, hw.led);//check buttons
                 yield();
             }
@@ -62,16 +62,15 @@ void loop() {
         hw.lcd.print("Game Over!");
         delay(2000);
         hw.lcd.clear();
-        multiplayer.displayWinnerLoser(hw.lcd);
-        delay(5000); // wait before returning to menu
+        multiplayer.displayWinnerLoser(hw.lcd); // display winner and loser
+        delay(2000); // wait before returning to menu
         
-    } else if (mode == SINGLEPLAYER) {
+    } else if (mode == SINGLEPLAYER) { // single player mode
         SoloGame solo(hw.buzz);
         solo.start();
         solo.countdown(hw.led, hw.lcd);
         delay(2000);
         while (!solo.isGameover ()) {//while the game is not finished
-            //solo.countdown(hw.led, hw.lcd);
             hw.lcd.clear();
             solo.start();
             long startTime = 0;
@@ -87,7 +86,7 @@ void loop() {
             hw.lcd.print("Press now!");
             hw.led.ON(); // turn on LED to signal player to press
 
-            while (!solo.isFinished()){
+            while (!solo.isFinished()){ // until the player presses
                 solo.inProgress(hw.player1Button, hw.led);//check button
                 yield();
                 stopTime = millis()-startTime;
@@ -123,7 +122,7 @@ void loop() {
                 delay(2000);
 
             }else {
-                hw.lcd.print("Wake up!!!");
+                hw.lcd.print("Wake up!!!"); // too slow
                 scoreManager.playloosermelody();
                 delay(2000);
             }
@@ -132,7 +131,7 @@ void loop() {
             scoreManager.playagainMelody();
             delay(1000);
             solo.start(); // reset for next round
-            Continue choose = continueSelector.selectContinue();
+            Continue choose = continueSelector.selectContinue(); // ask to continue
             if (choose == NO) {
                 hw.lcd.clear();
                 hw.lcd.print("Thanks for");

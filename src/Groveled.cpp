@@ -1,20 +1,20 @@
 #include "Hardware/GroveLED.hpp"
 #include <Arduino.h>
 
-GroveLED::GroveLED(int pin) : pin(pin) {
+GroveLED::GroveLED(int pin) : pin(pin) { // constructor with pin initialization
 	pinMode(pin, OUTPUT);
 	OFF();
 }
 
-void GroveLED::ON() {
+void GroveLED::ON() { // turn on the LED
 	digitalWrite(pin, HIGH);
 }
 
-void GroveLED::OFF() {
+void GroveLED::OFF() { // turn off the LED
 	digitalWrite(pin, LOW);
 }
 
-void GroveLED::blink(int period) {
+void GroveLED::blink(int period) { // LED blinks with period in ms (blocking)
 	if (period <= 0) return;
 	ON();
 	delay(period / 2);

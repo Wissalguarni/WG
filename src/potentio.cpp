@@ -3,8 +3,8 @@
 
 Potentio::Potentio(int p, GroveLCD* lcdScreen) : pin(p), lcd(lcdScreen) {}
 
-void Potentio::init() {
-    pinMode(pin, INPUT);
+void Potentio::init() { // initialize potentiometer
+    pinMode(pin, INPUT); 
     delay(6000); // wait for LCD to be ready
     lcd->clear();
     lcd->setCursor(0, 0);
@@ -20,7 +20,7 @@ void Potentio::init() {
     //lcd->print(choiceStr);
 }
 
-int Potentio::getChoice(int nbChoices) {
+int Potentio::getChoice(int nbChoices) { // get choice from potentiometer
     if (nbChoices <= 0) return 0;
 
     int value = analogRead(pin); // 0 → 1023
