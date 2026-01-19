@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 #include "Hardware.hpp"
-
+// GroveLED class to handle Grove LED functionalities
 
 class GroveLED : public Hardware {
 private:
@@ -12,8 +12,8 @@ private:
 public:
     GroveLED(int pin);
     void init() override {}; // no init needed for GroveLED
-    void ON();
-    void OFF();
+    void ON();// turn LED on
+    void OFF();// turn LED off
     void blink(int period); // LED blinks with period in ms (blocking)
      ~GroveLED() {};
 };

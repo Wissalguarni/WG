@@ -1,10 +1,10 @@
 #ifndef HARDWARE_HPP
 #define HARDWARE_HPP
 
-//Hardware is abstract
+// Abstract base class for hardware components
 class Hardware {
 public:
-    virtual void init() = 0;                     // init hardware
+    virtual void init() = 0;                     // initialize hardware
     virtual ~Hardware() {};
 };
 

@@ -15,7 +15,7 @@ ContinueSelector continueSelector(hw.lcd, hw.player1Button, A0); // Initialize c
 ScoreManager scoreManager(10, hw.lcd, hw.buzz); // Initialize score manager
 
 void setup() {
-    hw.initAll();
+    hw.initAll();// initialize all hardware
  
 }
 
@@ -24,17 +24,17 @@ void loop() {
     GameMode mode = selector.selectMode(); // let user select game mode
 
     if (mode == MULTIPLAYER) { // multiplayer mode
-        MultiplayerGame multiplayer(hw.buzz);
-        multiplayer.start();
-        multiplayer.countdown(hw.led, hw.lcd);
-        hw.lcd.clear();
-        hw.lcd.print("First at 5");
-        delay(2000);
+        MultiplayerGame multiplayer(hw.buzz);// initialize multiplayer game
+        multiplayer.start();// start the game
+        multiplayer.countdown(hw.led, hw.lcd);// countdown before starting
+        hw.lcd.clear();// clear LCD
+        hw.lcd.print("First at 5");// display goal
+        delay(2000);// wait before starting
         // Game loop
         while (!multiplayer.isGameOver()) {//while the game is not finished
-            hw.lcd.clear();
-            multiplayer.start();
-            hw.lcd.print("Get ready...");
+            hw.lcd.clear();// clear LCD
+            multiplayer.start();// start a new round
+            hw.lcd.print("Get ready...");// prompt players to get ready
             hw.lcd.clear();
             hw.lcd.print("Wait for it...");
             long waitTime = multiplayer.waitingTime(D0); // get random wait time

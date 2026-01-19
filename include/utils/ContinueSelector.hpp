@@ -8,7 +8,7 @@ enum Continue {
     YES,
     NO
 };
-
+// ContinueSelector class to handle continue selection
 class ContinueSelector {
 private:
     GroveLCD& lcd;          
@@ -17,7 +17,7 @@ private:
     Continue currentChoice;// currently selected choice
     int lastPotValue;// to track changes
 
-    void displayMenu();
+    void displayMenu();// display continue menu
 
 public:
     ContinueSelector(GroveLCD& lcd, Button& button, int potPin);// constructor

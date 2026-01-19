@@ -6,7 +6,7 @@
 #include <exception>  // obligatoire pour std::exception
 #include <string> 
 
-// Exception pour un temps de réaction trop lent
+// ScoreManager class to handle scores
 
 class ScoreManager {
 private:
@@ -17,16 +17,15 @@ private:
     Buzzer& buzzer;
 
 public:
-    ScoreManager(int maxScores, GroveLCD& lcd,Buzzer& buzzer);
+    ScoreManager(int maxScores, GroveLCD& lcd,Buzzer& buzzer);//constructor
 
-    void addScore(int newScore);
-    void displayScores();
-    int getPosition(int score);
-    void playloosermelody();
-    void playwinnerMelody();
-    void playagainMelody();
-    // TRUE si le dernier score est le MEILLEUR
-    bool operator!();
+    void addScore(int newScore);// add a new score
+    void displayScores();// display top scores on LCD
+    int getPosition(int score);// get position of a score
+    void playloosermelody();// play looser melody
+    void playwinnerMelody();// play winner melody
+    void playagainMelody();// play again melody
+    bool operator!();// TRUE if last score is best
 };
 
 #endif

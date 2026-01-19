@@ -8,7 +8,7 @@ enum GameMode {
     SINGLEPLAYER,
     MULTIPLAYER
 };
-
+// GameSelector class to handle game mode selection
 class GameSelector {
 private:
     GroveLCD& lcd;          

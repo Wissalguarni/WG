@@ -4,7 +4,7 @@ GroveLCD::GroveLCD() {}
 
 void GroveLCD::init() { // initialize the LCD
     lcd.begin(16, 2);          // LCD 16x2
-    lcd.setRGB(255, 255, 255); // Backlight blanc
+    lcd.setRGB(255, 255, 255); // white backlight
 
     lcd.clear();
     lcd.print("FUN FUN GAMES");

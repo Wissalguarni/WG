@@ -6,7 +6,7 @@
 #include <Wire.h>
 #include <rgb_lcd.h>
 #include <string>
-
+// GroveLCD class to handle Grove LCD functionalities
 
 class GroveLCD : public Hardware {
 private:

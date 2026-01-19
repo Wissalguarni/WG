@@ -25,7 +25,7 @@ GameMode GameSelector::selectMode() {// select game mode
             displayMenu();
         }
 
-        if (validateButton.isPressed()) { // note : plus de ->, maintenant .
+        if (validateButton.isPressed()) { 
             lcd.clear();
             delay(200); // anti-bounce
             return currentMode;

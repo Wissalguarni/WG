@@ -1,7 +1,7 @@
 #include "utils/GameHardware.hpp"
 #include <Wire.h>
 
-GameHardware::GameHardware(int ledPin, int button1Pin, int button2Pin, int potPin,int buzzerPin) // initializer list
+GameHardware::GameHardware(int ledPin, int button1Pin, int button2Pin, int potPin,int buzzerPin) 
     : lcd(), 
       led(ledPin), 
       player1Button(button1Pin, &lcd), 

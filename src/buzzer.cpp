@@ -5,7 +5,7 @@ Buzzer::Buzzer(int buzzerPin) : pin(buzzerPin) {}
 
 void Buzzer::init() {
     int notes[] = {262, 294, 330, 349};       // Do, Ré, Mi, Fa
-    int durations[] = {200, 200, 200, 200};  // durée de chaque note
+    int durations[] = {200, 200, 200, 200};  // durations in ms
     playMusic(notes, durations, 4);
 }
 

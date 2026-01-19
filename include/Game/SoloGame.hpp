@@ -7,11 +7,11 @@
 #include "Hardware/Buzzer.hpp"
 #include <Arduino.h>
 #include <string>
-
+// SoloGame class to handle solo game logic
 class SoloGame {
 private:
-    bool finished;
-    bool ledOn;
+    bool finished;// is the round finished?
+    bool ledOn;// is the LED on?
 
     Buzzer& buzzer;
 
@@ -22,8 +22,8 @@ public:
     void countdown(GroveLED& led, GroveLCD& lcd); // countdown 3..2..1..GO!
     void inProgress(Button& p1, GroveLED& led);// game in progress
     bool isFinished() const;// is the round finished?
-    long waitingTime(int pin);
-    bool isGameover () ;
+    long waitingTime(int pin);// get random wait time
+    bool isGameover () ;// is the game over ?
     void stop(); 
 };
 

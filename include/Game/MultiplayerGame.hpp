@@ -7,7 +7,7 @@
 #include "Hardware/Buzzer.hpp"
 #include <Arduino.h>
 #include <string>
-
+// MultiplayerGame class to handle multiplayer game logic
 class MultiplayerGame {
 private:
     bool finished;
@@ -32,7 +32,7 @@ public:
     int getscoreplayer2() ;// get player 2 score
      void displayWinnerLoser(GroveLCD& lcd);// display winner and loser
      bool isGameOver() const;// is the game over (a player reached max score)?
-     long waitingTime(int pin);
+     long waitingTime(int pin);// get random wait time
 };
 
 #endif

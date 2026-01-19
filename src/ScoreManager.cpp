@@ -52,7 +52,7 @@ int ScoreManager::getPosition(int score) { // get position of a score
     return -1;
 }
 
-bool ScoreManager::operator!() { // TRUE si le dernier score est le MEILLEUR
+bool ScoreManager::operator!() { // TRUE if last score is best
     if (scores.empty()) return false;
     return lastScore == scores.front();
 }
