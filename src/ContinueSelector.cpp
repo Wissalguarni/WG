@@ -25,7 +25,7 @@ Continue ContinueSelector::selectContinue() {// select continue mode
             displayMenu();
         }
 
-        if (validateButton.isPressed()) {  .
+        if (validateButton.isPressed()) {  // validate selection
             lcd.clear();
             delay(200); // anti-bounce
             return currentChoice;

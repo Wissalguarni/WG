@@ -1,6 +1,6 @@
 /*********************************************************************
  * @file  Apllication.h
- * @author <mettre l'adresse mail ou nom prenom>
+ * @author <Wissal GUARNI Florian GOYHENEIX>
  * @brief Fichier header de l'application
  *********************************************************************/
 #ifndef APPLICATION_H_
@@ -33,5 +33,12 @@ class Application
      * @brief Fonction de lancement de l'application
     */
     void run(void);
+    private:
+    // Hardware
+    GameHardware hw;
+    GameSelector selector;
+    ContinueSelector continueSelector;
+    ScoreManager scoreManager;
+  
 };
 #endif

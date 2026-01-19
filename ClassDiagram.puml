@@ -1,0 +1,285 @@
+@startuml Game_Platform_Architecture
+
+!define HARDWARE_COLOR #FFE4B5
+!define GAME_COLOR #B0E0E6
+!define UTILITY_COLOR #DDA0DD
+!define ENUM_COLOR #F0E68C
+
+skinparam backgroundColor #F5F5F5
+skinparam classBackgroundColor #FFFFFF
+skinparam classBorderColor #000000
+skinparam arrowColor #555555
+
+' ===========================
+' HARDWARE ABSTRACT BASE CLASS
+' ===========================
+abstract class Hardware {
+    {abstract} void init()
+    {abstract} ~Hardware()
+}
+
+' ===========================
+' HARDWARE IMPLEMENTATIONS
+' ===========================
+class Button extends Hardware {
+    - int pin
+    - bool lastState
+    - GroveLCD* lcd
+    __
+    + Button(int buttonPin, GroveLCD* lcdScreen)
+    + void init()
+    + bool isPressed()
+}
+
+class Buzzer extends Hardware {
+    - int pin
+    __
+    + Buzzer(int buzzerPin)
+    + void init()
+    + void beep(int frequency, int duration)
+    + void playMusic(int notes[], int durations[], int length)
+}
+
+class GroveLCD extends Hardware {
+    - rgb_lcd lcd
+    __
+    + GroveLCD()
+    + void init()
+    + void clear()
+    + void setCursor(int col, int row)
+    + void print(const std::string& message)
+    + void setBacklight(int r, int g, int b)
+    + void displayScore(int score1, int score2)
+    + void displayGameOver(int score1, int score2)
+    + void displayVainqueur(const std::string& vainqueur)
+}
+
+class GroveLED extends Hardware {
+    - int pin
+    __
+    + GroveLED(int pin)
+    + void init() override {}
+    + void ON()
+    + void OFF()
+    + void blink(int period)
+    + ~GroveLED()
+}
+
+class Potentio extends Hardware {
+    - int pin
+    - GroveLCD* lcd
+    __
+    + Potentio(int pin, GroveLCD* lcdScreen)
+    + void init() override
+    + int getChoice(int nbChoices)
+}
+
+' ===========================
+' ENUMERATIONS
+' ===========================
+enum GameMode <<ENUM_COLOR>> {
+    SINGLEPLAYER
+    MULTIPLAYER
+}
+
+enum Continue <<ENUM_COLOR>> {
+    YES
+    NO
+}
+
+' ===========================
+' EXCEPTIONS
+' ===========================
+class BadreactionTime extends std::exception {
+    + const char* what() const noexcept override
+}
+
+' ===========================
+' UTILITY CLASSES
+' ===========================
+class GameHardware {
+    + GroveLCD lcd
+    + GroveLED led
+    + Button player1Button
+    + Button player2Button
+    + Potentio pot
+    + Buzzer buzz
+    __
+    + GameHardware(int ledPin, int button1Pin, int button2Pin, int potPin, int buzzerPin)
+    + void initAll()
+}
+
+class GameSelector {
+    - GroveLCD& lcd
+    - Button& validateButton
+    - int potPin
+    - GameMode currentMode
+    - int lastPotValue
+    - void displayMenu()
+    __
+    + GameSelector(GroveLCD& lcd, Button& button, int potPin)
+    + GameMode selectMode()
+}
+
+class ContinueSelector {
+    - GroveLCD& lcd
+    - Button& validateButton
+    - int potPin
+    - Continue currentChoice
+    - int lastPotValue
+    - void displayMenu()
+    __
+    + ContinueSelector(GroveLCD& lcd, Button& button, int potPin)
+    + Continue selectContinue()
+}
+
+class ScoreManager {
+    - std::vector<int> scores
+    - int maxScores
+    - GroveLCD& lcd
+    - int lastScore
+    - Buzzer& buzzer
+    __
+    + ScoreManager(int maxScores, GroveLCD& lcd, Buzzer& buzzer)
+    + void addScore(int newScore)
+    + void displayScores()
+    + int getPosition(int score)
+    + void playloosermelody()
+    + void playwinnerMelody()
+    + void playagainMelody()
+    + bool operator!()
+}
+
+' ===========================
+' GAME CLASSES
+' ===========================
+class SoloGame {
+    - bool finished
+    - bool ledOn
+    - Buzzer& buzzer
+    __
+    + SoloGame(Buzzer& buzzer)
+    + void start()
+    + void countdown(GroveLED& led, GroveLCD& lcd)
+    + void inProgress(Button& p1, GroveLED& led)
+    + bool isFinished() const
+    + long waitingTime(int pin)
+    + bool isGameover()
+    + void stop()
+}
+
+class MultiplayerGame {
+    - bool finished
+    - bool ledOn
+    - std::string winner
+    - int scorePlayer1
+    - int scorePlayer2
+    - const int maxScore
+    - Buzzer& buzzer
+    __
+    + MultiplayerGame(Buzzer& buzzer)
+    + void start()
+    + void countdown(GroveLED& led, GroveLCD& lcd)
+    + void inProgress(Button& p1, Button& p2, GroveLED& led)
+    + void end()
+    + bool isFinished() const
+    + std::string getWinner() const
+    + int getscoreplayer1()
+    + int getscoreplayer2()
+    + void displayWinnerLoser(GroveLCD& lcd)
+    + bool isGameOver() const
+    + long waitingTime(int pin)
+}
+
+' ===========================
+' APPLICATION CLASS
+' ===========================
+class Application {
+    - GameHardware hw
+    - GameSelector selector
+    - ContinueSelector continueSelector
+    - ScoreManager scoreManager
+    __
+    + Application()
+    + ~Application()
+    + void init()
+    + void run()
+}
+
+' ===========================
+' RELATIONSHIPS
+' ===========================
+
+' GameHardware composition relationships
+GameHardware *-- GroveLCD : contains
+GameHardware *-- GroveLED : contains
+GameHardware *-- Button : contains (x2)
+GameHardware *-- Potentio : contains
+GameHardware *-- Buzzer : contains
+
+' GameSelector dependencies
+GameSelector --> GroveLCD : uses
+GameSelector --> Button : uses
+GameSelector --> GameMode : uses
+
+' ContinueSelector dependencies
+ContinueSelector --> GroveLCD : uses
+ContinueSelector --> Button : uses
+ContinueSelector --> Continue : uses
+
+' ScoreManager dependencies
+ScoreManager --> GroveLCD : uses
+ScoreManager --> Buzzer : uses
+ScoreManager --> BadreactionTime : throws
+
+' SoloGame dependencies
+SoloGame --> Buzzer : uses
+SoloGame --> Button : uses
+SoloGame --> GroveLED : uses
+SoloGame --> GroveLCD : uses
+
+' MultiplayerGame dependencies
+MultiplayerGame --> Buzzer : uses
+MultiplayerGame --> Button : uses (x2)
+MultiplayerGame --> GroveLED : uses
+MultiplayerGame --> GroveLCD : uses
+
+' Application composition and dependencies
+Application *-- GameHardware : manages
+Application *-- GameSelector : manages
+Application *-- ContinueSelector : manages
+Application *-- ScoreManager : manages
+Application --> SoloGame : uses
+Application --> MultiplayerGame : uses
+
+note right of Hardware
+  Abstract base class for all
+  hardware components on the platform
+end note
+
+note right of GameHardware
+  Aggregates all hardware components
+  for the game platform
+end note
+
+note right of SoloGame
+  Manages single-player game logic
+  and interactions
+end note
+
+note right of MultiplayerGame
+  Manages multiplayer (2 players)
+  game logic and scoring
+end note
+
+note right of ScoreManager
+  Tracks and displays high scores,
+  manages game feedback sounds
+end note
+
+note right of Application
+  Main orchestrator that manages
+  all hardware and game logic components
+end note
+
+@enduml

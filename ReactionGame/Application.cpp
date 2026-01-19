@@ -1,27 +1,35 @@
-#include <Arduino.h>
-#include "Hardware/GroveLCD.hpp"
-#include "Hardware/button.hpp"
-#include "Game/MultiplayerGame.hpp"
-#include "Hardware/Groveled.hpp"
-#include "Utils/GameSelector.hpp"
-#include "Utils/GameHardware.hpp"
-#include "Game/SoloGame.hpp"
-#include "Utils/ContinueSelector.hpp"
-#include "Utils/ScoreManager.hpp"
+/*********************************************************************
+ * @file  Apllication.cpp
+ * @author <Wissal GUARNI Florian GOYHENEIX>
+ * @brief Fichier source de l'application
+ *********************************************************************/
+#include "Application.h"
 
-GameHardware hw(D7, D8, D5, A0, D6); // Initialize hardware with pin numbers
-GameSelector selector(hw.lcd, hw.player1Button, A0); // Initialize game selector
-ContinueSelector continueSelector(hw.lcd, hw.player1Button, A0); // Initialize continue selector
-ScoreManager scoreManager(10, hw.lcd, hw.buzz); // Initialize score manager
 
-void setup() {
-    hw.initAll();// initialize all hardware
- 
+Application::Application()
+:hw(D7, D8, D5, A0, D6),
+  selector(hw.lcd, hw.player1Button, A0),
+  continueSelector(hw.lcd, hw.player1Button, A0),
+  scoreManager(10, hw.lcd, hw.buzz)
+{
+    
+}
+  
+Application::~Application()
+{
+  // Code
+  ;
+}  
+
+void Application::init()
+{
+    //initialize all hardware
+    hw.initAll();
 }
 
 
-void loop() {
-    GameMode mode = selector.selectMode(); // let user select game mode
+void Application::run(void){
+GameMode mode = selector.selectMode(); // let user select game mode
 
     if (mode == MULTIPLAYER) { // multiplayer mode
         MultiplayerGame multiplayer(hw.buzz);// initialize multiplayer game
@@ -145,4 +153,5 @@ void loop() {
         }
     }
 }
+
 
